@@ -1,9 +1,9 @@
-const auth = require("./auth")
-const notifications = require("./notifications")
+const auth = require("./auth");
+const notifications = require("./notifications");
 
 const elements = {
-  "Auth": auth,
-  "Notifications": notifications
-}
+  Auth: auth,
+  Notifications: notifications,
+};
 
-module.exports = elements
+module.exports = elements;

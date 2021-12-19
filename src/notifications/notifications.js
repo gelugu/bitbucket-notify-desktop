@@ -1,31 +1,29 @@
 const { shell } = require("electron");
 const _ = require("lodash");
 
+const ls = require("../storage/LocalStorage");
 const PullRequest = require("../api/bitbucket/PullRequest");
 
 const checkNotifications = async () => {
   const pullRequests = await PullRequest.getUnreviewed();
 
   const pullRequestsIds = pullRequests.map((pr) => `${pr.repository}/${pr.id}`);
-  let lastNotification = [];
-  try {
-    lastNotification = JSON.parse(localStorage.getItem("lastNotifications"));
-  } catch {}
-  const isEquals = _.isEqual(pullRequestsIds, lastNotification);
+  const isEquals = _.isEqual(pullRequestsIds, ls.getLastNotification());
 
   if (pullRequests.length && !isEquals) {
     triggerNotifications(pullRequests);
   }
 
-  localStorage.setItem("lastNotifications", JSON.stringify(pullRequestsIds));
+  ls.setLastNotification(pullRequestsIds);
 
-  clearTimeout(parseInt(localStorage.getItem("currenttimoutId")));
+  clearTimeout(ls.getCurrentTimerId());
 
-  const frequency =
-    parseInt(localStorage.getItem("notificationsFreqency")) * 600;
-  const timeoutId = setTimeout(checkNotifications, frequency);
+  const timeoutId = setTimeout(
+    checkNotifications,
+    ls.getNotificationsFrequency()
+  );
 
-  localStorage.setItem("currenttimoutId", timeoutId);
+  ls.setCurrentTimerId(timeoutId);
 };
 
 const triggerNotifications = (pullRequests) => {
@@ -49,8 +47,8 @@ const notify = async (pullRequests) => {
     );
 
     notification.onclick = () => {
-      const url = localStorage.getItem("serverUrl");
-      const username = localStorage.getItem("username");
+      const url = ls.getBitbucketUrl();
+      const username = ls.getUsername();
       const location = pullRequests[0].repository.replace("/", "/repos/");
       shell.openExternal(
         `${url}/projects/${location}/pull-requests?state=OPEN&reviewer=${username}`

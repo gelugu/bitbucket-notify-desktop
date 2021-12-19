@@ -1,6 +1,7 @@
 const checkPullRequests = require("../notifications/notifications");
+const ls = require("../storage/LocalStorage");
 
-const createInput = (labelText, dataId, password = false) => {
+const createInput = (labelText, dataId, type = "text") => {
   const input = document.createElement("input");
   const label = document.createElement("label");
   const wrapper = document.createElement("div");
@@ -15,22 +16,17 @@ const createInput = (labelText, dataId, password = false) => {
   label.htmlFor = id;
 
   input.id = id;
+  input.type = type;
+  input.value = ls.getFromLocalStorage(dataId);
 
-  if (password) {
-    input.type = "password";
-    input.value = atob(localStorage.getItem(dataId)) || "";
-    input.oninput = () => {
-      localStorage.setItem(dataId, btoa(input.value));
-      checkPullRequests();
-    };
-  } else {
-    input.type = "text";
-    input.value = localStorage.getItem(dataId) || "";
-    input.oninput = () => {
-      localStorage.setItem(dataId, input.value);
-      callback();
-    };
-  }
+  input.oninput = () => {
+    if (type === "password") {
+      ls.setToLocalStorage(dataId, btoa(input.value));
+    } else {
+      ls.setToLocalStorage(dataId, input.value);
+    }
+    checkPullRequests();
+  };
 
   wrapper.appendChild(label);
   wrapper.appendChild(input);

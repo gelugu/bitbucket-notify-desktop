@@ -1,12 +1,16 @@
-const createInput = require("../components/InputNumber")
-
+const createInput = require("../components/Input");
+const ls = require("../storage/LocalStorage");
 
 const createNotifications = () => {
-  const content = document.getElementById("content")
-  content.innerHTML = ""
+  const content = document.getElementById("content");
+  content.innerHTML = "";
 
-  const input = createInput("Notifications freqency (minuts):", "notificationsFreqency")
-  content.appendChild(input)
-}
+  const input = createInput(
+    "Notifications freqency (minuts):",
+    ls.KEYS.FREQUENCY,
+    "number"
+  );
+  content.appendChild(input);
+};
 
-module.exports = createNotifications
+module.exports = createNotifications;

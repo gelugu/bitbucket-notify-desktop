@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu, nativeImage } = require("electron");
+const { app, BrowserWindow, Tray, Menu } = require("electron");
 const path = require("path");
 
 function createWindow() {
@@ -12,7 +12,7 @@ function createWindow() {
 
   mainWindow.loadFile("index.html");
 
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   const menu = Menu.buildFromTemplate([
     {

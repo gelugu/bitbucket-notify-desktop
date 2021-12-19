@@ -8,7 +8,8 @@
     "appId": "com.gelugu.bb-notify"
   },
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-builder -mwl"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -21,7 +22,8 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^16.0.2"
+    "electron": "^16.0.2",
+    "electron-builder": "^22.14.5"
   },
   "dependencies": {
     "bitbucket": "^2.7.0",

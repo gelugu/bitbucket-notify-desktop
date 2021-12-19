@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "electron .",
-    "build": "rm -rf dist && electron-builder build --publish never"
+    "build": "rm -rf dist && electron-builder build -mwl --publish never"
   },
   "repository": "https://github.com/gelugu/bitbucket-notify-desktop",
   "keywords": [

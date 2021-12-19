@@ -19,20 +19,11 @@ jobs:
       - run: npm ci
       - run: npm run build
 
-      - name: Upload MacOS Bundles
+      - name: Upload Bundles
         uses: actions/upload-artifact@v2
         with:
-          name: app-release.aab
-          path: dist/BBNotify*.dmg
-
-      - name: Upload Windows Bundles
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-release.aab
-          path: dist/BBNotify*.exe
-
-      - name: Upload Linux Bundles
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-release.aab
-          path: dist/bitbucket-notify-desktop*.snap
+          name: BBNotify release
+          path: |
+            dist/*.dmg
+            dist/*.exe
+            dist/*.snap

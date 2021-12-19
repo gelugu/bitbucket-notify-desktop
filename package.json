@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder -mwl"
+    "build": "electron-builder -mwl --publish always"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [

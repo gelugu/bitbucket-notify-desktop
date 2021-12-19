@@ -12,8 +12,6 @@ function createWindow() {
 
   mainWindow.loadFile("index.html");
 
-  // mainWindow.webContents.openDevTools();
-
   const menu = Menu.buildFromTemplate([
     {
       label: "file",
@@ -30,6 +28,8 @@ function createWindow() {
     },
   ]);
   Menu.setApplicationMenu(menu);
+
+  // mainWindow.webContents.openDevTools();
 }
 
 let tray = null;
@@ -42,16 +42,17 @@ app.whenReady().then(() => {
 
   tray = new Tray(__dirname + "/public/icons/bb_blue_16.png");
   const contextMenu = Menu.buildFromTemplate([
-    { label: "Item1", type: "radio" },
-    { label: "Item2", type: "radio" },
-    { label: "Item3", type: "radio", checked: true },
-    { label: "Item4", type: "radio" },
+    {
+      label: "Exit",
+      click() {
+        app.quit();
+      },
+    },
   ]);
-  tray.setToolTip("Open settings");
-  tray.cli;
   tray.setContextMenu(contextMenu);
 });
 
+// remove to quit from tray only
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });

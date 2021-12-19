@@ -1,4 +1,6 @@
-const createInput = (labelText, dataId, callback) => {
+const checkPullRequests = require("../notifications/notifications");
+
+const createInput = (labelText, dataId) => {
   const input = document.createElement("input");
   const label = document.createElement("label");
   const wrapper = document.createElement("div");
@@ -14,10 +16,10 @@ const createInput = (labelText, dataId, callback) => {
 
   input.id = id;
   input.type = "number";
-  input.value = localStorage.getItem(dataId) || ""
+  input.value = localStorage.getItem(dataId) || "";
   input.oninput = () => {
-    localStorage.setItem(dataId, input.value)
-    callback()
+    localStorage.setItem(dataId, input.value);
+    checkPullRequests();
   };
 
   wrapper.appendChild(label);

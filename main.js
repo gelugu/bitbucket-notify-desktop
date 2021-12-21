@@ -1,5 +1,7 @@
 const { app, BrowserWindow, Tray, Menu } = require("electron");
 const path = require("path");
+const checkPullRequests = require("./src/notifications/notifications");
+const ls = require("./src/storage/LocalStorage");
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -34,16 +36,28 @@ function createWindow() {
 
 let tray = null;
 app.whenReady().then(() => {
+  process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+
   createWindow();
+
+  ls.setLastNotification("");
+  checkPullRequests();
 
   app.on("activate", function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 
-  tray = new Tray(__dirname + "/public/icons/bb_blue_16.png");
+  const trayIcon = path.join(__dirname, "public/icons/bb_blue_16.png");
+  tray = new Tray(trayIcon);
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: "Exit",
+      label: "settings",
+      click() {
+        createWindow();
+      },
+    },
+    {
+      label: "exit",
       click() {
         app.quit();
       },
@@ -52,7 +66,4 @@ app.whenReady().then(() => {
   tray.setContextMenu(contextMenu);
 });
 
-// remove to quit from tray only
-app.on("window-all-closed", function () {
-  if (process.platform !== "darwin") app.quit();
-});
+app.on("window-all-closed", function () {});

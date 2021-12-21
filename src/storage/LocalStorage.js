@@ -1,8 +1,11 @@
+const LS = require("node-localstorage").LocalStorage;
+
 const log = require("../logger/Logger");
 
 class LocalStorage {
   constructor() {
-    this.defaultFrequency = 120000;
+    this.localStorage = new LS("lsfile");
+    this.defaultFrequency = 120;
   }
   KEYS = Object.freeze({
     BITBUCKET_URL: "bitbucketurl",
@@ -35,8 +38,7 @@ class LocalStorage {
   }
 
   getNotificationsFrequency() {
-    const frequency =
-      parseInt(this.getFromLocalStorage(this.KEYS.FREQUENCY)) * 60000;
+    const frequency = parseInt(this.getFromLocalStorage(this.KEYS.FREQUENCY));
 
     if (isNaN(frequency)) {
       log.error("Can't find notification freqquency");
@@ -73,7 +75,7 @@ class LocalStorage {
 
   getFromLocalStorage(key) {
     try {
-      return localStorage.getItem(key);
+      return this.localStorage.getItem(key);
     } catch (e) {
       log.info("Can't find", key, e);
       return "";
@@ -81,7 +83,7 @@ class LocalStorage {
   }
   setToLocalStorage(key, value) {
     try {
-      localStorage.setItem(key, value);
+      this.localStorage.setItem(key, value);
     } catch (e) {
       log.info("Can't write", key, value, e);
       return "";
@@ -89,4 +91,6 @@ class LocalStorage {
   }
 }
 
-module.exports = new LocalStorage();
+const ls = new LocalStorage()
+
+module.exports = ls;

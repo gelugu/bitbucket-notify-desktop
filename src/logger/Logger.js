@@ -1,12 +1,15 @@
 class Logger {
-  info(text) {
-    console.log(text);
+  info(...obj) {
+    obj.forEach((o) => console.log(o));
+    console.log();
   }
-  warn(text) {
-    console.warn(text);
+  warn(...obj) {
+    obj.forEach((o) => console.log(o));
+    console.log();
   }
-  error(text) {
-    console.error(text);
+  error(...obj) {
+    obj.forEach((o) => console.log(o));
+    console.log();
   }
 }
 

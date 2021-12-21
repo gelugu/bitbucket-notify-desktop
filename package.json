@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "bitbucket-server-nodejs": "^2.12.1",
-    "concurrently": "^6.5.1"
+    "concurrently": "^6.5.1",
+    "node-localstorage": "^2.2.1"
   }
 }
